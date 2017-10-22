@@ -5,6 +5,7 @@ import {ApplicationModule} from "./modules/app.module";
 import {Module} from "@nestjs/core/injector/module";
 import {InvoiceService} from "./invoice/InvoiceService";
 import {StoreService} from "./store/StoreService";
+import {ProductService} from "./product/ProductService";
 
 function preprocess(input) {
     const awaitMatcher = /^(?:\s*(?:(?:let|var|const)\s)?\s*([^=]+)=\s*|^\s*)(await\s[\s\S]*)/;
@@ -35,7 +36,7 @@ const _eval = (replInstance as any).eval;
 replInstance.context.init = async () => {
   const app = await NestFactory.create(ApplicationModule);
   const modules: Set<Module> = (app as any).container.modules;
-  const serviceNames: string[] = [InvoiceService.name, StoreService.name];
+  const serviceNames: string[] = [InvoiceService.name, StoreService.name, ProductService.name];
   modules.forEach(module => {
     module.components.forEach(component => {
       if(serviceNames.indexOf(component.name) !== -1) {

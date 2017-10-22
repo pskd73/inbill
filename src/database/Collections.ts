@@ -1,4 +1,5 @@
 export enum Collections {
   Invoice = "Invoice",
-  Store = "Store"
+  Store = "Store",
+  Product = "Product"
 }

@@ -3,11 +3,16 @@ import {InvoiceDto} from "./InvoiceDto";
 import {Model, Document, Schema} from "mongoose";
 import {Tokens} from "../database/Tokens";
 import {Collections} from "../database/Collections";
+import {ProductDto} from "../product/ProductDto";
 
 export interface Invoice extends Document {
   id: string,
   amount: number,
-  storeId: string
+  storeId: string,
+  products: {
+    productId: string,
+    price: number
+  }[]
 }
 
 @Component()
@@ -18,7 +23,15 @@ export class InvoiceService {
       type: Schema.Types.ObjectId,
       require: true,
       ref: Collections.Store
-    }
+    },
+    products: [{
+      productId: {
+        type: Schema.Types.ObjectId,
+        require: true,
+        ref: Collections.Product
+      },
+      price: Number
+    }]
   });
 
   constructor(
@@ -40,5 +53,9 @@ export class InvoiceService {
 
   async getStoreInvoices(storeId: string): Promise<InvoiceDto[]> {
     return InvoiceDto.convert(await this.invoiceModel.find({storeId}));
+  }
+
+  async addProducts(invoiceDto: InvoiceDto, products: ProductDto[]): Promise<InvoiceDto> {
+    return new InvoiceDto(await this.invoiceModel.findByIdAndUpdate(invoiceDto.id, {$push: {products}}, {new: true}));
   }
 }
