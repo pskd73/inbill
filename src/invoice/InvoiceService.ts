@@ -2,16 +2,23 @@ import {Component, Inject} from "@nestjs/common";
 import {InvoiceDto} from "./InvoiceDto";
 import {Model, Document, Schema} from "mongoose";
 import {Tokens} from "../database/Tokens";
+import {Collections} from "../database/Collections";
 
 export interface Invoice extends Document {
   id: string,
-  amount: number
+  amount: number,
+  storeId: string
 }
 
 @Component()
 export class InvoiceService {
   static Schema = new Schema({
-    amount: Number
+    amount: Number,
+    storeId: {
+      type: Schema.Types.ObjectId,
+      require: true,
+      ref: Collections.Store
+    }
   });
 
   constructor(
@@ -25,5 +32,13 @@ export class InvoiceService {
 
   async getAll(): Promise<InvoiceDto[]> {
     return InvoiceDto.convert(await this.invoiceModel.find({}));
+  }
+
+  async getById(id: string): Promise<InvoiceDto> {
+    return new InvoiceDto(await this.invoiceModel.findById(id));
+  }
+
+  async getStoreInvoices(storeId: string): Promise<InvoiceDto[]> {
+    return InvoiceDto.convert(await this.invoiceModel.find({storeId}));
   }
 }

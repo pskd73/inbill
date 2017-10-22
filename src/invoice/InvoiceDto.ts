@@ -1,8 +1,10 @@
-import {Invoice} from "./InvoiceService";
+import {Invoice, InvoiceService} from "./InvoiceService";
+import {StoreDto} from "../store/StoreDto";
 
 export class InvoiceDto {
   public id: string;
   public amount: number;
+  public storeId: string;
 
   static convert(invoices: Invoice[]): InvoiceDto[] {
     return invoices.map(invoice => new InvoiceDto(invoice));
@@ -11,5 +13,6 @@ export class InvoiceDto {
   constructor(invoice: Invoice) {
     this.id = invoice._id;
     this.amount = invoice.amount;
+    this.storeId = invoice.storeId;
   }
 }

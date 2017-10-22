@@ -38,4 +38,13 @@ export class StoreService {
   async getAll(): Promise<StoreDto[]> {
     return StoreDto.convert(await this.storeModel.find({}));
   }
+
+  async add(storeDto: StoreDto): Promise<StoreDto> {
+    const store = new this.storeModel(storeDto);
+    return new StoreDto(await store.save());
+  }
+
+  async getById(id: string): Promise<StoreDto> {
+    return new StoreDto(await this.storeModel.findById(id));
+  }
 }
