@@ -1,12 +1,12 @@
 import {Module} from "@nestjs/common";
 import {InvoiceController} from "./InvoiceController";
-import {InvoiceService} from "./models/InvoiceService";
+import {InvoiceService} from "./InvoiceService";
 import {DatabaseModule} from "../database/DatabaseModule";
-import {InvoiceProviders} from "./models/InvoiceProviders";
+import {DatabaseProviders} from "../database/DatabaseProviders";
 
 @Module({
   modules: [DatabaseModule],
   controllers: [InvoiceController],
-  components: [InvoiceService, ...InvoiceProviders]
+  components: [InvoiceService, ...DatabaseProviders]
 })
 export class InvoiceModule {}

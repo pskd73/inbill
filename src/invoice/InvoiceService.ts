@@ -1,6 +1,7 @@
 import {Component, Inject} from "@nestjs/common";
-import {InvoiceDto} from "../InvoiceDto";
-import {Model, Document} from "mongoose";
+import {InvoiceDto} from "./InvoiceDto";
+import {Model, Document, Schema} from "mongoose";
+import {Tokens} from "../database/Tokens";
 
 export interface Invoice extends Document {
   id: string,
@@ -9,8 +10,12 @@ export interface Invoice extends Document {
 
 @Component()
 export class InvoiceService {
+  static Schema = new Schema({
+    amount: Number
+  });
+
   constructor(
-    @Inject("InvoiceModelToken") private readonly invoiceModel: Model<Invoice>
+    @Inject(Tokens.InvoiceModel) private readonly invoiceModel: Model<Invoice>
   ) {}
 
   async add(invoiceDto: InvoiceDto): Promise<InvoiceDto> {

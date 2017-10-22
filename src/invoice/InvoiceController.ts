@@ -1,6 +1,6 @@
 import {Controller, Get, Post, Query, Body} from "@nestjs/common";
 import {InvoiceDto} from "./InvoiceDto";
-import {InvoiceService} from "./models/InvoiceService";
+import {InvoiceService} from "./InvoiceService";
 
 @Controller("invoice")
 export class InvoiceController {

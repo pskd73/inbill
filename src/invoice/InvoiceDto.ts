@@ -1,4 +1,4 @@
-import {Invoice} from "./models/InvoiceService";
+import {Invoice} from "./InvoiceService";
 
 export class InvoiceDto {
   public id: string;
